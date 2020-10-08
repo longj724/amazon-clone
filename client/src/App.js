@@ -1,24 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+
+  const [madeRequest, getMadeRequest] = useState(false)
+  const [info, setInfo] = useState('nothing')
+
+  let getInfo = () => {
+    fetch('/api/hello').then((res) => {
+      return res.json();
+    }).then((data) => {
+      getMadeRequest(true)
+      setInfo(data["express"])
+    })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={getInfo}>Make a get request</button>
+      { madeRequest ? <p>Made request</p> : <p>Didn't make request</p>}
+    <p>{info}</p>
     </div>
   );
 }
