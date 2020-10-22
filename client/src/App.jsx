@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import MenuBar from './MenuBar.jsx';
-import './productCard.jsx';
+import MenuBar from './components/MenuBar.jsx';
+import ProductCard from "./components/ProductCard";
+
+
 
 function App() {
     const [madeRequest, setMadeRequest] = useState(false);
@@ -21,8 +23,11 @@ function App() {
 
     return (
         <div>
-			<MenuBar />
-			
+            <ProductCard
+                id={"1234"}
+                name={"Blue gilled fire"}
+                details={"kills you painfully"}
+            />
         </div>
     );
 }
