@@ -7,8 +7,10 @@ const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/api/hello', (req, res) => {
-  res.send({ express: 'Hello From Express' });
+app.get('/api/getInfo', (req, res) => {
+  const data = [{"id": 1, "name": "blue gilled fire", "details": "kills you painfully"}, 
+  {"id": 2, "name": "yello stripped zebra", "details": "doesn't kill you"}]
+  res.send(JSON.stringify(data));
 });
 
 app.post('/api/world', (req, res) => {

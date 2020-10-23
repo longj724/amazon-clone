@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import MenuBar from './components/MenuBar.jsx';
@@ -7,27 +7,22 @@ import ProductCard from "./components/ProductCard";
 
 
 function App() {
-    const [madeRequest, setMadeRequest] = useState(false);
-    const [info, setInfo] = useState('nothing');
+    const [products, setProducts] = useState([])
 
     let getInfo = () => {
-        fetch('/api/hello')
+        fetch('/api/getInfo')
             .then((res) => {
                 return res.json();
             })
             .then((data) => {
-                setMadeRequest(true);
-                setInfo(data['express']);
+                setProducts(data)
             });
     };
 
     return (
         <div>
-            <ProductCard
-                id={"1234"}
-                name={"Blue gilled fire"}
-                details={"kills you painfully"}
-            />
+            <button onClick={getInfo}>Get Products</button>
+            {products.map((product) => (<ProductCard id={product.id} name={product.name} details={product.details} key={product.id}/>))}
         </div>
     );
 }
