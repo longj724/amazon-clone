@@ -18,20 +18,22 @@ const useStyles = makeStyles({
 });
 
 function ProductCard(props) {
-    const classes = useStyles();
+    const classes = useStyles()
     const name = props.name
     const id = props.id
     const url = `/?id=${props.id}`
     const details = props.details
+    const image_url = props.image_id
+    const base_url = ""
 
     return (
         <Card className={classes.root}>
-            <CardActionArea>
+            <CardActionArea href={url}>
                 <CardMedia
                     className={classes.media}
                     component="img"
                     alt={name}
-                    image="https://d24cgw3uvb9a9h.cloudfront.net/static/94101/image/new/postattendee/zoomphone.png"
+                    image={base_url + image_url}
                     title={name}
                 />
                 <CardContent>
