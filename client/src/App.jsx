@@ -5,6 +5,7 @@ import MenuBar from './components/MenuBar.jsx';
 import ProductCard from "./components/ProductCard";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import About from "./pages/About";
+import ProductListing from "./pages/ProductListing";
 
 
 
@@ -32,6 +33,10 @@ function App() {
                     <p>the cart page will go here</p>
                 </Route>
 
+                <Route path={"/products"}>
+                    <ProductListing products={products}/>
+                </Route>
+
                 <Route path={"/"}>
                     <ProductCard
                         id={"1234"}
@@ -39,10 +44,11 @@ function App() {
                         details={"kills you painfully"}
                     />
                     <div>
-                    <button onClick={getInfo}>Get Products</button>
+                        <button onClick={getInfo}>Get Products</button>
                         {products.map((product) => (<ProductCard id={product.id} name={product.name} details={product.details} key={product.id}/>))}
                     </div>
                 </Route>
+
             </Switch>
         </Router>
     );

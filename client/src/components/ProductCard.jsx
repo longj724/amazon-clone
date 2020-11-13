@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {Link} from 'react-router-dom'
+import ReviewStars from "./ReviewStars";
 
 const useStyles = makeStyles({
     root: {
@@ -26,6 +27,7 @@ function ProductCard(props) {
     const details = props.details
     const image_url = props.image_id
     const base_url = "https://placeimg.com/640/480/"
+    const rating = Math.floor(Math.random() * 6)
 
     return (
         <Card className={classes.root}>
@@ -42,9 +44,7 @@ function ProductCard(props) {
                         <Typography gutterBottom variant="h5" component="h2">
                             {name}
                         </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {details}
-                        </Typography>
+                        <ReviewStars rating={rating}/>
                     </CardContent>
                 </CardActionArea>
 
