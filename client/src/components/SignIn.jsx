@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import useStyles from '../css/signInStyle';
 
 function SignIn() {
+    const classes = useStyles();
+    const history = useHistory();
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('')
 
-    let changeUsername = (e) => {
+    const changeUsername = (e) => {
         setUsername(e.target.value);
     };
 
-    let changePassword = (e) => {
+    const changePassword = (e) => {
         setPassword(e.target.value);
     };
 
@@ -25,13 +31,19 @@ function SignIn() {
             .then((res) => {
                 return res.json();
             })
-            .then((data) => console.log(data));
+            .then((data) => {
+                if (data.auth) {
+                    history.push('/')
+                } else {
+                    setErrorMessage(data.message)
+                }
+            });
         e.preventDefault();
     };
 
-    let signUp = (e) => {
+    const signUp = (e) => {
         let userInfo = { username: username, password: password };
-        console.log(userInfo)
+
         fetch('/auth/signup', {
             headers: {
                 'Content-Type': 'application/json',
@@ -43,37 +55,64 @@ function SignIn() {
             .then((res) => {
                 return res.json();
             })
-            .then((data) => console.log(data));
+            .then((data) => {
+                if (data.auth) {
+                    history.push('/')
+                } else {
+                    setErrorMessage(data.message)
+                }
+            });
     };
 
-    let test = () => {
-        fetch('/api/getInfo')
-    }
+    const test = () => {
+        fetch('/api/getInfo');
+    };
 
     return (
-        <form>
-            <label for="username-sign-in">Username</label>
-            <input
-                type="text"
-                id="username-sign-in"
-                onChange={changeUsername}
-            />
-            <br />
-            <label for="password-sign-in">Password</label>
-            <input
-                type="password"
-                id="password-sign-in"
-                onChange={changePassword}
-            />
-            <br />
-            <button type="button" onClick={signIn}>
-                Sign In
-            </button>
-            <button type="button" onClick={signUp}>
-                Sign Up
-            </button>
-            <button type="button" onClick={test}> test</button>
-        </form>
+        <div className={classes.login}>
+            <Link to="/">
+                {/* <img
+                    src='https://i.pinimg.com/originals/08/5f/d8/085fd8f7819dee3b716da73d3b2de61c.jpg/
+                1024px-Amazon_logo.svg.png'
+                /> */}
+                <h1>Amazon</h1>
+            </Link>
+
+            <div className={classes.loginContainer}>
+                <h1>Sign In</h1>
+                <form>
+                    <h5>Username</h5>
+                    <input
+                        onChange={changeUsername}
+                        value={username}
+                        type="text"
+                    />
+
+                    <h5>Password</h5>
+                    <input
+                        onChange={changePassword}
+                        value={password}
+                        type="password"
+                    />
+
+                    <button
+                        type="submit"
+                        onClick={signIn}
+                        className={classes.loginSignInButton}
+                    >
+                        Sign In
+                    </button>
+                    <p>{errorMessage}</p>
+                </form>
+
+                <button
+                    onClick={signUp}
+                    className={classes.loginRegisterButton}
+                >
+                    Create Account
+                </button>
+            </div>
+        </div>
     );
 }
 

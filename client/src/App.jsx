@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './css/App.css';
 import MenuBar from './components/MenuBar.jsx';
-import ProductCard from "./components/ProductCard";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
-import About from "./pages/About";
-import ProductListing from "./pages/ProductListing";
-
-
+import ProductCard from './components/ProductCard';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import _ from 'lodash'
+import About from './pages/About';
+import ProductListing from './pages/ProductListing';
+import SignIn from './components/SignIn';
 
 function App() {
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState([]);
+    const [user, setUser] = useState({});
 
     let getInfo = () => {
         fetch('/api/getInfo')
@@ -18,37 +19,67 @@ function App() {
                 return res.json();
             })
             .then((data) => {
-                setProducts(data)
+                setProducts(data);
             });
+    };
+
+    useEffect(() => {
+        fetch('/user-info')
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                console.log(data)
+                console.log(user)
+                if (data.user) {
+                    console.log(data.userObj);
+                    setUser(data.userObj);
+                }
+            });
+    }, []);
+
+    const handleAuthentication = () => {
+        if (user) {
+            console.log('in loop')
+            fetch('/auth/signout')
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    if (data.signOut) {
+                        setUser({})
+                    }
+                });
+        }
     };
 
     return (
         <Router>
             <Switch>
-                <Route path={"/about"}>
-                    <About/>
+                <Route path={'/about'}>
+                    <About />
                 </Route>
 
-                <Route path={"/cart"}>
+                <Route path={'/signin'}>
+                    <SignIn />
+                </Route>
+
+                <Route path={'/cart'}>
                     <p>the cart page will go here</p>
                 </Route>
 
-                <Route path={"/products"}>
-                    <ProductListing products={products}/>
+                <Route path={'/products'}>
+                    <ProductListing products={products} />
                 </Route>
 
-                <Route path={"/"}>
-                    <ProductCard
-                        id={"1234"}
-                        name={"Blue gilled fire"}
-                        details={"kills you painfully"}
-                    />
+                <Route path={'/'}>
                     <div>
-                        <button onClick={getInfo}>Get Products</button>
-                        {products.map((product) => (<ProductCard id={product.id} name={product.name} details={product.details} key={product.id}/>))}
+                        <h1>{user.username}</h1>
                     </div>
+                    <Link to={_.isEmpty(user) && '/signin'}>
+                        <span onClick={handleAuthentication}>{_.isEmpty(user) ? 'Sign In' : 'Sign Out'}</span>
+                    </Link>
                 </Route>
-
             </Switch>
         </Router>
     );
