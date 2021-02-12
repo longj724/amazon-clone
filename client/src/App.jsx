@@ -8,6 +8,7 @@ import _ from 'lodash'
 import About from './pages/About';
 import ProductListing from './pages/ProductListing';
 import SignIn from './components/SignIn';
+import ProductPage from "./pages/ProductPage";
 
 function App() {
     const [products, setProducts] = useState([]);
@@ -72,7 +73,16 @@ function App() {
                     <ProductListing products={products} />
                 </Route>
 
-                <Route path={'/'}>
+                <Route path={"/product"}>
+                    <ProductPage/>
+                </Route>
+
+                <Route path={"/"}>
+                    <ProductCard
+                        id={"1234"}
+                        name={"Blue gilled fire"}
+                        details={"kills you painfully"}
+                    />
                     <div>
                         <h1>{user.username}</h1>
                     </div>
