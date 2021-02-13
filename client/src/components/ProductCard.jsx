@@ -23,16 +23,19 @@ function ProductCard(props) {
     const classes = useStyles()
     const name = props.name
     const id = props.id
-    const url = `/?id=${props.id}`
+    const param_url = `?id=${props.id}`
     const details = props.details
     const image_url = props.image_id
     const base_url = "https://placeimg.com/640/480/"
-    const rating = Math.floor(Math.random() * 6)
+    const rating = props.rating
 
     return (
         <Card className={classes.root}>
                 {/*This part adds the link to the component without changing the internal styling*/}
-                <CardActionArea component={Link} to={url}>
+                <CardActionArea component={Link} to={{
+                    pathname: "/product",
+                    search: param_url
+                }}>
                         <CardMedia
                             className={classes.media}
                             component="img"
