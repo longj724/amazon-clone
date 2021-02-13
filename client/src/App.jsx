@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './css/App.css';
 import MenuBar from './components/MenuBar.jsx';
 import ProductCard from './components/ProductCard';
