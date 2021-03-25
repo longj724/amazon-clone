@@ -53,10 +53,12 @@ function SignIn() {
             body: JSON.stringify(userInfo),
         })
             .then((res) => {
+                console.log(res)
                 return res.json();
             })
             .then((data) => {
                 if (data.auth) {
+                    console.log('here')
                     history.push('/')
                 } else {
                     setErrorMessage(data.message)

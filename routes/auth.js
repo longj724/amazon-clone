@@ -6,8 +6,10 @@ function authentication(app) {
         '/auth/signup',
         (req, res, next) => {
             auth.checkDuplicateUsername(req, res, next);
+            next()
         },
         (req, res) => {
+            console.log('calling sign up')
             controller.signup(req, res);
         }
     );

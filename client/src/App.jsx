@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import './css/App.css';
+import Home from './components/Home.jsx';
 import MenuBar from './components/MenuBar.jsx';
-import ProductCard from './components/ProductCard';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import _ from 'lodash'
 import About from './pages/About';
 import ProductListing from './pages/ProductListing';
 import SignIn from './components/SignIn';
-import ProductPage from "./pages/ProductPage";
+import ProductPage from './pages/ProductPage';
+import ProductCard from './components/ProductCard';
+import Checkout from './components/Checkout';
+import './css/App.css';
+
+import _ from 'lodash';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 function App() {
     const [products, setProducts] = useState([]);
@@ -29,8 +32,8 @@ function App() {
                 return res.json();
             })
             .then((data) => {
-                console.log(data)
-                console.log(user)
+                console.log(data);
+                console.log(user);
                 if (data.user) {
                     console.log(data.userObj);
                     setUser(data.userObj);
@@ -40,14 +43,14 @@ function App() {
 
     const handleAuthentication = () => {
         if (user) {
-            console.log('in loop')
+            console.log('in loop');
             fetch('/auth/signout')
                 .then((res) => {
                     return res.json();
                 })
                 .then((data) => {
                     if (data.signOut) {
-                        setUser({})
+                        setUser({});
                     }
                 });
         }
@@ -55,6 +58,7 @@ function App() {
 
     return (
         <Router>
+            <MenuBar />
             <Switch>
                 <Route path={'/about'}>
                     <About />
@@ -64,30 +68,33 @@ function App() {
                     <SignIn />
                 </Route>
 
-                <Route path={'/cart'}>
-                    <p>the cart page will go here</p>
+                <Route path={'/checkout'}>
+                    <Checkout />
                 </Route>
 
                 <Route path={'/products'}>
                     <ProductListing products={products} />
                 </Route>
 
-                <Route path={"/product"}>
-                    <ProductPage/>
+                <Route path={'/product'}>
+                    <ProductPage />
                 </Route>
 
-                <Route path={"/"}>
+                <Route path={'/'}>
+                    <Home />
                     <ProductCard
-                        id={"1234"}
-                        name={"Blue gilled fire"}
-                        details={"kills you painfully"}
+                        id={'1234'}
+                        name={'Blue gilled fire'}
+                        details={'kills you painfully'}
                     />
                     <div>
                         <h1>{user.username}</h1>
                     </div>
-                    <Link to={_.isEmpty(user) && '/signin'}>
-                        <span onClick={handleAuthentication}>{_.isEmpty(user) ? 'Sign In' : 'Sign Out'}</span>
-                    </Link>
+                    {/* <Link to={_.isEmpty(user) && '/signin'}>
+                        <span onClick={handleAuthentication}>
+                            {_.isEmpty(user) ? 'Sign In' : 'Sign Out'}
+                        </span>
+                    </Link> */}
                 </Route>
             </Switch>
         </Router>
