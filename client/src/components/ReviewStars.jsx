@@ -13,7 +13,7 @@ function ReviewStars(props) {
         bool_array.push(false)
     }
     return (
-        <span>
+        <span style={{display: "flex", flexWrap: "nowrap"}}>
             {bool_array.map((bool, index) => bool ? <GradeIcon key={index}/> : <GradeOutlinedIcon key={index}/>)}
         </span>
     );
