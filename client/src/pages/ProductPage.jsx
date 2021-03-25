@@ -8,6 +8,8 @@ import {Image} from "@material-ui/icons";
 import ReviewStars from "../components/ReviewStars";
 import products_json from "../products.json";
 
+const products = products_json
+
 const styles = {
     display: "flex",
     flexWrap: "wrap",
@@ -24,12 +26,12 @@ function ProductPage(props) {
     let query = useQuery()
 
     const id = query.get("id")
-    const product = products_json[id]
+    const product = products[id]
     const name = product.name
     const rating = product.rating
     const description = product.description
     const related_product_ids = product.similars
-    const related_products = related_product_ids.map(product_id => products_json[product_id])
+    const related_products = related_product_ids.map(product_id => products[product_id])
 
     return (
         <Container maxWidth={"md"}>

@@ -14,7 +14,7 @@ function ReviewStars(props) {
     }
     return (
         <span>
-            {bool_array.map(bool => bool ? <GradeIcon/> : <GradeOutlinedIcon/>)}
+            {bool_array.map((bool, index) => bool ? <GradeIcon key={index}/> : <GradeOutlinedIcon key={index}/>)}
         </span>
     );
 }
